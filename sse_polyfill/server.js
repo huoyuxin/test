@@ -9,6 +9,7 @@ http
     var parsedURL = url.parse(request.url, true);
     var pathname = parsedURL.pathname;
     if (pathname === "/events.php") {
+      console.log('client open')
       response.writeHead(200, {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-store",
@@ -41,12 +42,13 @@ http
 
       response.on("close", function() {
         clearTimeout(timeoutId);
+        console.log('client close')
       });
     } else {
       if (pathname === "/") {
         pathname = "/index.html";
       }
-      if (pathname === "/index.html" || pathname === "../src/eventsource.js") {
+      if (pathname === "/index.html" || pathname === "/eventsource.js") {
         response.writeHead(200, {
           "Content-Type":
             pathname === "/index.html" ? "text/html" : "text/javascript"
